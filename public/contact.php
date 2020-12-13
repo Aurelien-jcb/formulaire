@@ -74,9 +74,6 @@ if ($_POST) {
         // pas de code HTML dans le formulaire
         $errors['message'] = "Vous ne pouvez pas entrer de code HTML dans votre message";
     }
-    // si il n'y a pas d'erreur, on dirige l'utilisateur vers la page d'accueil
-    if (!$errors) {
-    }
 }
 
 
