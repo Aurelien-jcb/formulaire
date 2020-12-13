@@ -5,10 +5,10 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 
 // activation du système d'autoloading de Composer
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 // instanciation du chargeur de templates
-$loader = new FilesystemLoader(__DIR__.'/templates');
+$loader = new FilesystemLoader(__DIR__.'/../templates');
 
 // instanciation du moteur de template
 $twig = new Environment($loader, [
@@ -21,9 +21,24 @@ $twig = new Environment($loader, [
 $twig->addExtension(new DebugExtension());
 
 // permet d'afficher le contenu de la variable
+$formData = [
+    'email' => '',
+    'subject' => '',
+    'message' => ''
+];
+
+
 $errors = [];
 
 if ($_POST) {
+    foreach ($formData as $key => $value) {
+        if (isset($_POST[$key])) {
+            // Réaffecte la nouvelle valeur
+            $formData[$key] = $_POST[$key];
+        }   
+    }
+
+
     // validation des emails
     $emailMaxlenght = 190;
     if (empty($_POST['email'])) {
@@ -60,8 +75,7 @@ if ($_POST) {
         $errors['message'] = "Vous ne pouvez pas entrer de code HTML dans votre message";
     }
     // si il n'y a pas d'erreur, on dirige l'utilisateur vers la page d'accueil
-    if ($errors) {
-        // il y a des erreurs
+    if (!$errors) {
     }
 }
 
@@ -72,4 +86,5 @@ if ($_POST) {
 echo $twig->render('contact.html.twig', [
     // transmission de données au template
     'errors' => $errors,
+    'formData' => $formData
 ]);
