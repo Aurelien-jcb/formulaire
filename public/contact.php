@@ -38,7 +38,6 @@ if ($_POST) {
         }   
     }
 
-
     // validation des emails
     $emailMaxlenght = 190;
     if (empty($_POST['email'])) {
